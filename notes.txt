@@ -1,0 +1,48 @@
+Choose cardHanlder : add param gameId;
+
+Response createGame : // const response = {
+    //     method: 'createGame',
+    //     values: {
+    //         "gameId" : "gameId"
+    //     }
+    // }
+
+
+Client WS:
+// WS bauen
+
+  let ws = new WebSocket();
+
+  ws.onmessage(data => {
+    let dataObject = JSON.parse(data);
+
+    // switch case on method
+
+
+  })
+
+// Event handler mitws.send()
+
+
+// Server WS handling
+let handler: MessageHandler;
+     try{
+        const dataJson = JSON.parse(data.toString());
+        switch(dataJson["message"]){
+          case "createGame":  handler = new CreateGameHandler(); return handler.handleMessage(dataJson).toString();
+          case "chooseCard":  handler = new ChooseCardHandler(); return handler.handleMessage(dataJson).toString();
+          case "leaveGame":  handler = new LeaveGameHandler(); return handler.handleMessage(dataJson).toString();
+          case "newRound":  handler = new NewRoundHandler(); return handler.handleMessage(dataJson).toString();
+          case "participate":  handler = new ParticipateHandler(); return handler.handleMessage(dataJson).toString();
+          case "revealCard":  handler = new RevealCardsHandler(); return handler.handleMessage(dataJson).toString();
+          default: console.log("no matching message found in: %s", JSON.stringify(dataJson));
+        }
+      } catch(e){
+        console.log("something went wrong trying to process the message: %s", e);
+      }
+
+      response = handler!.handleMessage(dataJson, gamestate);
+
+      ws.send(JSON.stringify(response));
+
+      wss.clients.forEach((ws) => ws.send(response))
