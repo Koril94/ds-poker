@@ -1,6 +1,3 @@
-import React, { useEffect, useState } from "react";
-import CardOnHand from "../CardOnHand/CardOnHand";
-import CardComponent from '../CardComponent/CardComponent';
 import Card from '../../objects/Card';
 
 interface StatsProperties {

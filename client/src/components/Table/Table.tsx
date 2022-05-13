@@ -1,4 +1,3 @@
-import React from "react";
 import './Table.css'
 import Card from '../../objects/Card';
 import CardComponent from '../CardComponent/CardComponent';
