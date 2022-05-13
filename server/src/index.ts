@@ -14,8 +14,7 @@ import { RevealCardsHandler } from "./handler/RevealCardsHandler";
 
 let playersMap: Map<string, Object> = new Map<string, Object>();
 const app = express();
-const __dirname: string = process.env.PWD || "";
-app.use(express.static(path.join(__dirname, "client", "build")));
+app.use(express.static(path.join(__dirname, '../../',  "client", "build")));
 app.get('/api/test', (req, res) => {
     console.log('Hello World')
 });
@@ -23,7 +22,7 @@ app.get('/api/test', (req, res) => {
 // Right before your server.listen(), add this:
 app.get("*", (req, res) => {
     console.log('Test')
-    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+    res.sendFile(path.join(__dirname, '../../', "client", "build", "index.html"));
 });
 
 const server = http.createServer(app);
