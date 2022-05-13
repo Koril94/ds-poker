@@ -13,8 +13,9 @@ import { MessageHandler } from "./handler/MessageHandler";
 import { RevealCardsHandler } from "./handler/RevealCardsHandler";
 import { resourceLimits } from "worker_threads";
 import { GameState } from "./classes/GameState";
+import { Player } from "./classes/Player";
 
-let playersMap: Map<string, Object> = new Map<string, Object>();
+let playersMap = new Map<string, ws.WebSocket>();
 let gamesMap = new Map<string, GameState>();
 
 const app = express();
@@ -37,7 +38,6 @@ const wss = new WebSocketServer({server});
 
 
 wss.on('connection', (ws) => {
-  // playersMap.set(uuid.v4(), ws);
   ws.on('close', () => console.log('Client disconnected'));
   ws.on('message', (data) => {
     let handler: MessageHandler | undefined;
@@ -47,7 +47,7 @@ wss.on('connection', (ws) => {
       let dataJson = JSON.parse(data.toString());
       gameState = dataJson["params"].gameId != null ? gamesMap.get(dataJson["params"].gameId) : new GameState();
       switch(dataJson["method"]){
-        case "createGame": handler = new CreateGameHandler(); break;// neuer gamestate
+        case "createGame": handler = new CreateGameHandler(); break;
         case "chooseCard": handler = new ChooseCardHandler(); break;
         case "leaveGame": handler = new LeaveGameHandler(); break;
         case "newRound": handler = new NewRoundHandler(); break;
@@ -56,9 +56,15 @@ wss.on('connection', (ws) => {
         default: console.log("no matching message found in: %s", JSON.stringify(dataJson));
       }
 
+      // put new player to playersMap together with ws
+      // todo
+
+      // put new gamestate to games map if not present
       if(gameState && !gamesMap.has(gameState.getId())){
         gamesMap.set(gameState.getId(), gameState);
       }
+
+      // create result message for identified message
       if(handler && gameState){
         result = handler.handleMessage(dataJson, gameState);
       }
@@ -66,15 +72,19 @@ wss.on('connection', (ws) => {
       console.log("something went wrong trying to process the message: %s", e);
     }
 
-    // update websockets
+    // update current websocket if result present
     if(result != null){
-      
-        ws.send(result.message);
-
-        wss.clients.forEach((ws) => {
-          ws.send(JSON.stringify(gameState));
-        });
+      ws.send(result);
     }
+
+    // update all other websockets of the game state
+    gameState?.getPlayers().forEach((player: Player, key) => {
+      if(playersMap.has(player.getId())){
+        const ws = playersMap.get(player.getId());
+        ws?.send(JSON.stringify(gameState));
+      }
+    });
+    
   });
 });
 
