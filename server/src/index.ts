@@ -38,6 +38,7 @@ const wss = new WebSocketServer({server});
 
 
 wss.on('connection', (ws) => {
+  playersMap.set(uuid.v4(), ws);
   ws.on('close', () => console.log('Client disconnected'));
   ws.on('message', (data) => {
     let handler: MessageHandler | undefined;
