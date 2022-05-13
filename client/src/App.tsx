@@ -48,6 +48,7 @@ export default function App() {
   //   // set Player ID
   // }
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setGame(mockGameState))
 
   ws.onmessage = (data: any) => {
