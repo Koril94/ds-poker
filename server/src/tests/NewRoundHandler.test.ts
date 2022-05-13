@@ -1,3 +1,4 @@
+import { GameState } from '../classes/GameState';
 import { NewRoundHandler } from '../handler/NewRoundHandler';
 
 describe('ChooseCardHandler', () => {
@@ -10,7 +11,8 @@ describe('ChooseCardHandler', () => {
 
     it('ChooseCardHandler', async () => {
         const handler = new NewRoundHandler();
-        expect(handler.handleMessage(newRoundMessage)).toMatch(JSON.stringify(newRoundMessage));
+        const gameState = new GameState();
+        expect(handler.handleMessage(newRoundMessage, gameState)).toMatch(JSON.stringify(newRoundMessage));
     });
 });
 

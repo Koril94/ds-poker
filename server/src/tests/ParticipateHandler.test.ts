@@ -1,3 +1,4 @@
+import { GameState } from '../classes/GameState';
 import { ParticipateHandler } from '../handler/ParticipateHandler';
 
 describe('ChooseCardHandler', () => {
@@ -10,7 +11,8 @@ describe('ChooseCardHandler', () => {
 
     it('ChooseCardHandler', async () => {
         const handler = new ParticipateHandler();
-        expect(handler.handleMessage(participateMessage)).toMatch(JSON.stringify(participateMessage));
+        const gameState = new GameState();
+        expect(handler.handleMessage(participateMessage, gameState)).toMatch(JSON.stringify(participateMessage));
     });
 });
 
