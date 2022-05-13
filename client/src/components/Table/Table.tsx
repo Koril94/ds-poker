@@ -1,6 +1,7 @@
 import React from "react";
-import Card from "../Card/Card";
 import './Table.css'
+import Card from '../../objects/Card';
+import CardComponent from '../CardComponent/CardComponent';
 
 const Table = ({ cards, cardsAreVisible } : any) => {
     return (
@@ -11,8 +12,8 @@ const Table = ({ cards, cardsAreVisible } : any) => {
           justifyContent: "space-evenly"
         }}
       >
-        {cards.map((card: any) => (
-          <Card
+        {cards.map((card: Card) => (
+          <CardComponent
             key={card.name}
             name={card.name}
             value={card.value}

@@ -1,7 +1,7 @@
 import React from "react";
-import './Card.css'
+import './CardComponent.css'
 
-const Card = ({ name, value, isVisible }: any) => {
+const CardComponent = ({ name, value, isVisible }: any) => {
     return (
       <div className="cardWrapper">
         <p className="name">{name}</p>
@@ -21,4 +21,4 @@ const Card = ({ name, value, isVisible }: any) => {
     );
   };
 
-  export default Card
+  export default CardComponent

@@ -4,20 +4,12 @@ import React, { useEffect, useState } from "react";
 import Table from './components/Table/Table';
 import Hand from './components/Hand/Hand';
 import Stats from './components/Stats/Stats';
+import Card from './objects/Card';
 
 const mockCards = [
-  {
-    name: "A",
-    value: "1"
-  },
-  {
-    name: "B",
-    value: "4"
-  },
-  {
-    name: "C",
-    value: "6"
-  }
+  new Card("A", "1"),
+  new Card("B", "4"),
+  new Card("C", "6")
 ];
 
 export default function App() {
@@ -38,12 +30,12 @@ export default function App() {
       <h1>Planning Poker</h1>
       {/* Stats */}
       <Table cards={mockCards} cardsAreVisible={cardsAreVisible} />
-      <Stats  />
 
-      
+      <Stats cards={mockCards}/>
+
       <div className="flexContainer">
       <div className="neuerTable">
-      
+
       <button
         onClick={toggleCards}
         style={{
