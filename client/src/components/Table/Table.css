@@ -1,13 +1,15 @@
 .table {
     display: flex;
-    justify-content: center;
-    align-content: center;
+    flex-wrap: wrap;
     align-self: center;
+    justify-content: space-evenly;
     background-color: #0085cd33;
     border-radius: 10px;
     margin: 5;
     width: 90%;
-    height: 50%;
-    aspect-ratio: '1/2';
-
+    height: 90%;
+    padding: 3px;
+    margin-bottom:30px;
+    margin-left: 10%;
+    margin-right: 10%;
 }

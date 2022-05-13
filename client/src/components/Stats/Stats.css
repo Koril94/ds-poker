@@ -1,0 +1,14 @@
+.stats {
+    display: flex;
+    flex-direction: column;
+    color: #FFF;
+    font-weight: bold;
+    justify-content: center;
+    align-self: center;
+    background-color: #004272;
+    border-radius: 10px;
+    width: 20%;
+    margin: 5;
+
+    /*aspect-ratio: '1/2';*/
+}

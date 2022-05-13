@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CardOnHand from "../CardOnHand/CardOnHand";
 import CardComponent from '../CardComponent/CardComponent';
 import Card from '../../objects/Card';
+import './Stats.css'
 
 interface StatsProperties {
     cards: Card[];
@@ -25,13 +26,13 @@ const Stats = ({ cards } : StatsProperties) => {
     }
 
     return (
-      <div>
+      <div className="stats">
             <div>
-                <p className="labelCol">Minvalue</p>
+                <p className="labelCol">Min</p>
                 <p className="valueCol">{minValue!}</p>
             </div>
             <div>
-                <p className="labelCol">Maxvalue</p>
+                <p className="labelCol">Max</p>
                 <p className="valueCol">{maxValue!}</p>
             </div>
             <div>

@@ -7,6 +7,11 @@
   text-align: center;
 }
 
+.App .pokerGame {
+  display: inline-flex;
+  flex-direction: row-reverse;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
