@@ -1,3 +1,4 @@
+import { GameState } from '../classes/GameState';
 import { LeaveGameHandler } from '../handler/LeaveGameHandler';
 
 describe('ChooseCardHandler', () => {
@@ -11,7 +12,8 @@ describe('ChooseCardHandler', () => {
 
     it('LeaveGameHandler', async () => {
         const handler = new LeaveGameHandler();
-        expect(handler.handleMessage(leaveGameMessage)).toMatch(JSON.stringify(leaveGameMessage));
+        const gameState = new GameState();
+        expect(handler.handleMessage(leaveGameMessage, gameState)).toMatch(JSON.stringify(leaveGameMessage));
     });
 });
 
