@@ -9,7 +9,7 @@ describe('Player', () => {
         player.setValue(Fibonacci.D)
         expect(player.getName()).toBe('ABC');
         expect(player.getValue()).toEqual(Fibonacci.D);
-        expect(player.getId()).not.toBe("123");
+        expect(player.getId()).toBe("123");
         player.setValue(Fibonacci.F)
         expect(player.getValue()).toEqual(Fibonacci.F);
     });
