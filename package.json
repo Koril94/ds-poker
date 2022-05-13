@@ -26,8 +26,8 @@
     "ws": "^8.6.0"
   },
   "devDependencies": {
-    "@types/uuid": "^8.3.4",
     "@types/jest": "^27.5.1",
+    "@types/uuid": "^8.3.4",
     "got": "^11.3.0",
     "tape": "^4.7.0"
   },
