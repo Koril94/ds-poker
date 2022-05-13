@@ -8,9 +8,9 @@ import { CreateGameHandler } from "./handler/CreateGameHandler";
 import { ChooseCardHandler } from "./handler/ChooseCardHandler";
 import { LeaveGameHandler } from "./handler/LeaveGameHandler";
 import { NewRoundHandler } from "./handler/NewRoundHandler";
-import { ParticipateHandler } from "./handler/ParticipeHandler";
+import { ParticipateHandler } from "./handler/ParticipateHandler";
 import { MessageHandler } from "./handler/MessageHandler";
-import { RevealCardsHandler } from "./handler/RevealCardHandler";
+import { RevealCardsHandler } from "./handler/RevealCardsHandler";
 
 let playersMap: Map<string, Object> = new Map<string, Object>();
 const app = express();
@@ -38,7 +38,7 @@ wss.on('connection', (ws) => {
   ws.on('close', () => console.log('Client disconnected'));
   ws.on('message', (data) => {
      try{
-        let handler: MessageHandler; 
+        let handler: MessageHandler;
         const dataJson = JSON.parse(data.toString());
         switch(dataJson["message"]){
           case "createGame":  handler = new CreateGameHandler(); return handler.handleMessage(dataJson).toString();
@@ -50,8 +50,8 @@ wss.on('connection', (ws) => {
           default: console.log("no matching message found in: %s", JSON.stringify(dataJson));
         }
       } catch(e){
-        console.log("something went wrong trying to process the message: %s", e); 
-      };
+        console.log("something went wrong trying to process the message: %s", e);
+      }
   });
 });
 
