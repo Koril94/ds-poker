@@ -1,3 +1,5 @@
+import './Stats.css'
+
 interface Player {
     id: string,
     name: string,
@@ -29,13 +31,13 @@ const Stats = ({ players } : StatsProperties) => {
     }
 
     return (
-      <div>
+      <div className="stats">
             <div>
-                <p className="labelCol">Minvalue</p>
+                <p className="labelCol">Min</p>
                 <p className="valueCol">{minValue!}</p>
             </div>
             <div>
-                <p className="labelCol">Maxvalue</p>
+                <p className="labelCol">Max</p>
                 <p className="valueCol">{maxValue!}</p>
             </div>
             <div>

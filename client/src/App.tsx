@@ -37,6 +37,7 @@ const mockGameState = {
 const HOST = document.location.origin.replace(/^http/, 'ws')
 const ws = new WebSocket(HOST)
 
+
 export default function App() {
   const [game, setGame] = useState<GameState>(mockGameState)
 
@@ -64,34 +65,25 @@ export default function App() {
       <div className="App">
         <h1>Planning Poker</h1>
         {/* Stats */}
-        <Table showCards={cardsAreVisible}  />
+        <div className="pokerGame">
 
-        <Stats players={game.players} />
+          <Table showCards={cardsAreVisible} />
 
-        <div className="flexContainer">
-          <div className="neuerTable">
-
-            <button onClick={handleUpdate}>Test</button>
-            <button
-              onClick={toggleCards}
-              style={{
-                backgroundColor: "blue",
-                color: "#fff",
-                borderRadius: 5,
-                border: "none",
-                padding: 15,
-                alignSelf: "center"
-              }}
-            >
-
-              {cardsAreVisible ? "Hide" : "Reveal"}
-            </button>
-          </div>
-          <Hand />
+          <Stats players={game.players} />
         </div>
+
+
+        <button onClick={handleUpdate}>Test</button>
+        <button
+          onClick={toggleCards}
+          className="btn_reveal"
+        >
+
+          {cardsAreVisible ? "Hide" : "Reveal"}
+        </button>
+        <Hand />
       </div>
     </GameContext.Provider>
-
   );
 }
 
