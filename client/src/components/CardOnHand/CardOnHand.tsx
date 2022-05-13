@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from "react";
 import "./CardOnHand.css";
+=======
+import { useEffect, useState } from "react";
+>>>>>>> df72b7174bf7f051248137e11e841613877d1546
 
 const CardOnHand = ({ value, isSelected, onSelect }: any) => {
     const [_isSelected, setIsSelected] = useState(isSelected);

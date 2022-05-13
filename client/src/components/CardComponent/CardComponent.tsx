@@ -1,4 +1,3 @@
-import React from "react";
 import './CardComponent.css'
 
 const CardComponent = ({ name, value, isVisible }: any) => {
