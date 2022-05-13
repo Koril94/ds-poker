@@ -10,7 +10,7 @@ import { LeaveGameHandler } from "./handler/LeaveGameHandler";
 import { NewRoundHandler } from "./handler/NewRoundHandler";
 import { ParticipateHandler } from "./handler/ParticipeHandler";
 import { MessageHandler } from "./handler/MessageHandler";
-import { RevealCardHandler } from "./handler/RevealCardHandler";
+import { RevealCardsHandler } from "./handler/RevealCardHandler";
 
 let playersMap: Map<string, Object> = new Map<string, Object>();
 const app = express();
@@ -47,7 +47,7 @@ wss.on('connection', (ws) => {
           case "leaveGame":  handler = new LeaveGameHandler(); return handler.handleMessage(dataJson).toString();
           case "newRound":  handler = new NewRoundHandler(); return handler.handleMessage(dataJson).toString();
           case "participate":  handler = new ParticipateHandler(); return handler.handleMessage(dataJson).toString();
-          case "revealCart":  handler = new RevealCardHandler(); return handler.handleMessage(dataJson).toString();
+          case "revealCard":  handler = new RevealCardsHandler(); return handler.handleMessage(dataJson).toString();
           default: console.log("no matching message found in: %s", JSON.stringify(dataJson));
         }
       } catch(e){
