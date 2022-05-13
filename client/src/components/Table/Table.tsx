@@ -1,25 +1,37 @@
 import './Table.css'
-import Card from '../../objects/Card';
 import CardComponent from '../CardComponent/CardComponent';
+import GameContext from '../../GameContext';
 
-const Table = ({ cards, cardsAreVisible } : any) => {
-    return (
-      <div className='table'
-        style={{
-          display: "flex",
+interface TableProps {
+  showCards: boolean
+}
 
-        }}
-      >
-        {cards.map((card: Card) => (
-          <CardComponent
-            key={card.name}
-            name={card.name}
-            value={card.value}
-            isVisible={cardsAreVisible}
-          />
-        ))}
-      </div>
-    );
-  };
+const Table = ({ showCards }: TableProps) => {
 
-  export default Table
+  return (
+    <GameContext.Consumer>
+      {game => {
+        console.log(game)
+        return(
+          <div className='table'
+            style={{
+              display: "flex",
+
+            }}
+          >
+            { game.players.map((player) => (
+              <CardComponent
+                key={player.id}
+                name={player.name}
+                value={player.value}
+                isVisible={showCards}
+              />
+            ))}
+          </div>
+        )
+      }}
+    </GameContext.Consumer>
+  );
+};
+
+export default Table
