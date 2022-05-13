@@ -2,7 +2,7 @@ import { GameState } from '../classes/GameState';
 
 describe('GameState', () => {
 
-    it('GameState', async () => {
+    it('GameState', () => {
         const gameState = new GameState();
         gameState.setName('ABC')
 
