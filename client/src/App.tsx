@@ -34,22 +34,13 @@ export default function App() {
 
       <Stats cards={mockCards}/>
       </div>
-        <div className="flexContainer">
-            <button
+        
+            <button className="btn_reveal"
               onClick={toggleCards}
-              style={{
-                backgroundColor: "#004272",
-                color: "#fff",
-                borderRadius: 5,
-                border: "none",
-                padding: 15,
-                alignSelf: "center",
-                marginBottom: "30px",
-              }}
             >
               {cardsAreVisible ? "Hide" : "Reveal"}
             </button>
-        </div>
+        
           <Hand />
       </div>
     

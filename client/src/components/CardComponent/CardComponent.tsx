@@ -1,4 +1,7 @@
+import { isVisible } from '@testing-library/user-event/dist/utils';
 import './CardComponent.css'
+
+
 
 const CardComponent = ({ name, value, isVisible }: any) => {
     return (
@@ -10,5 +13,6 @@ const CardComponent = ({ name, value, isVisible }: any) => {
       </div>
     );
   };
+
 
   export default CardComponent
