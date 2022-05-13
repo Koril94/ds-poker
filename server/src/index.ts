@@ -58,9 +58,6 @@ wss.on('connection', (ws) => {
         default: console.log("no matching message found in: %s", JSON.stringify(dataJson));
       }
 
-      // put new player to playersMap together with ws
-      // todo
-
       // put new gamestate to games map if not present
       if(gameState && !gamesMap.has(gameState.getId())){
         gamesMap.set(gameState.getId(), gameState);
