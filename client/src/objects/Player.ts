@@ -1,4 +1,5 @@
 export type Player = {
     id: String,
-    name: String
+    name: String,
+    value: String
 }
