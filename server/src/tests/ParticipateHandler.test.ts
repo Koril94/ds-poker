@@ -1,12 +1,12 @@
-const {ParticipateHandler} = require('./handler/ParticipateHandler');
+import { ParticipateHandler } from '../handler/ParticipateHandler';
 
-describe('ParticipateHandler', () => {
-    const participateMessage = {
+describe('ChooseCardHandler', () => {
+    const participateMessage: JSON = JSON.parse(`{
         method: 'participate',
         params: {
             playerId: 'c315da3e-91f9-4713-9244-7d4a4deb60d1',
         }
-    };
+    }`);
 
     it('ChooseCardHandler', async () => {
         const handler = new ParticipateHandler();
