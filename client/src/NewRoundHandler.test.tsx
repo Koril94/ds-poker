@@ -1,6 +1,6 @@
 const {NewRoundHandler} = require('./handler/NewRoundHandler');
 
-describe('ChooseCardHandler', () => {
+describe('NewRoundHandler', () => {
     const newRoundMessage = {
         method: 'newRound',
         params: {

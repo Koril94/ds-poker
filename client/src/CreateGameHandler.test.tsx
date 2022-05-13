@@ -1,6 +1,6 @@
 const {CreateGameHandler} = require('./handler/CreateGameHandler');
 
-describe('ChooseCardHandler', () => {
+describe('CreateGameHandler', () => {
     const createGameMessage = {
         method: 'createGame',
         params: {

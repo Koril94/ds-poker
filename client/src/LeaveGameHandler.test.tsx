@@ -1,6 +1,6 @@
 const {LeaveGameHandler} = require('./handler/LeaveGameHandler');
 
-describe('ChooseCardHandler', () => {
+describe('LeaveGameHandler', () => {
     const leaveGameMessage = {
         method: 'leaveGame',
         params: {

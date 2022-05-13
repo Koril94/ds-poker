@@ -1,6 +1,6 @@
 const {ParticipateHandler} = require('./handler/ParticipateHandler');
 
-describe('ChooseCardHandler', () => {
+describe('ParticipateHandler', () => {
     const participateMessage = {
         method: 'participate',
         params: {

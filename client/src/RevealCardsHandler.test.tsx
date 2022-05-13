@@ -1,6 +1,6 @@
 const {RevealCardsHandler} = require('./handler/RevealCardsHandler');
 
-describe('ChooseCardHandler', () => {
+describe('RevealCardsHandler', () => {
     const revealCardsMessage = {
         method: 'revealCards',
         params: {
