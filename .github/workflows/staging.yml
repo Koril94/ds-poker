@@ -11,8 +11,18 @@ jobs:
     environment: production
     steps:
       - uses: actions/checkout@v2
+      - uses: actions/setup-node@v3 
+        with:
+          node-version: 16.13.0
+          cache: 'npm'
+      - run: cd client
+      - run: npm ci
+      - run: npm run build --if-present
+      - run: npm test
+      - run: cd ..
       - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
           heroku_app_name: "ds-poker-staging" #Must be unique in Heroku
           heroku_email: "j.hauner@dotsource.de"
+      
