@@ -1,4 +1,5 @@
 import { Player } from "./Player"
+import uuid from "uuid";
 
 export class GameState {
     id: string;
@@ -11,7 +12,7 @@ export class GameState {
      * @description create new game
      */
     constructor() {
-        this.id = Math.random().toString(36).substring(2,9);
+        this.id = uuid.v4();
         this.name = "";
         this.revealed = false;
         this.players = new Map<string, Player>();
