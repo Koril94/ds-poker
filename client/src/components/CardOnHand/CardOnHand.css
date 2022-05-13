@@ -1,0 +1,7 @@
+.CardOnHand {
+    border: 1px solid #0085cd;
+    border-radius: 10px;
+    width: 30px;
+    margin: 5;
+    aspect-ratio: '1/2';
+}

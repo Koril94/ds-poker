@@ -1,5 +1,9 @@
 import { useState } from "react";
 import CardOnHand from "../CardOnHand/CardOnHand";
+import "./Hand.css";
+
+
+
 
 const Hand = () => {
     const [selectedCard, setSelectedCard] = useState(null);
@@ -10,13 +14,10 @@ const Hand = () => {
     };
   
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-evenly"
-        }}
-      >
+      <div>
+      <h3>Card chosen</h3>
+      
+      <div className="hand">
         {cardValues.map((card) => {
             return (
             <CardOnHand
@@ -27,6 +28,7 @@ const Hand = () => {
             />
           );
         })}
+      </div>
       </div>
     );
   };
