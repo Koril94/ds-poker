@@ -3,7 +3,7 @@ import { Message } from '../classes/Message';
 
 describe('ChooseCardHandler', () => {
 
-    it('ChooseCardHandler', async () => {
+    it('ChooseCardHandler', () => {
         const chooseCardMessage = new Message();
         chooseCardMessage.setMethod('chooseCard')
         const params = {
