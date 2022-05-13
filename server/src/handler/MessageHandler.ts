@@ -1,5 +1,7 @@
+import { GameState } from "../classes/GameState";
+
 export interface MessageHandler {
 
-    handleMessage(message: JSON): string;
+    handleMessage(message: any, gameState: GameState): string;
 
 }
