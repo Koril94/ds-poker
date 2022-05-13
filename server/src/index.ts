@@ -12,7 +12,7 @@ import { ParticipateHandler } from "./handler/ParticipeHandler";
 import { MessageHandler } from "./handler/MessageHandler";
 import { RevealCardHandler } from "./handler/RevealCardHandler";
 
-let playersMap: Map<string, Object>;
+let playersMap: Map<string, Object> = new Map<string, Object>();
 const app = express();
 const __dirname: string = process.env.PWD || "";
 app.use(express.static(path.join(__dirname, "client", "build")));
@@ -34,9 +34,7 @@ const wss = new WebSocketServer({server});
 
 
 wss.on('connection', (ws) => {
-  const id = uuid.v4();
-  
-  
+  playersMap.set(uuid.v4(), ws);
   console.log('Client connected');
   ws.on('close', () => console.log('Client disconnected'));
   ws.on('message', (data) => {
@@ -55,8 +53,6 @@ wss.on('connection', (ws) => {
       } catch(e){
         console.log("something went wrong trying to process the message: %s", e); 
       };
-     
-
   });
 });
 
