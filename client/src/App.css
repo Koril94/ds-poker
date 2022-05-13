@@ -1,4 +1,9 @@
 .App {
+  display: flex;
+  height: 90vh;
+  flex-direction: column;
+  align-content: space-evenly;
+  justify-content: space-evenly;
   text-align: center;
 }
 
