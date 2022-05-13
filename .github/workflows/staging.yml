@@ -16,7 +16,8 @@ jobs:
           node-version: 16.13.0
           cache: 'npm'
       - run: cd client
-      - run: mv .gitignore-ci .gitignore
+      - run: cp package.json package123.json 
+     # - run: mv .gitignore-ci .gitignore
       - run: npm ci
       - run: npm run build --if-present
       - run: cd ..
