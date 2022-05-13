@@ -62,6 +62,7 @@ export class GameState {
     addNewPlayer() {
         let player = new Player();
         this.players.set(player.getId(), player);
+        return player.getId();
     }
 
     /**
@@ -82,5 +83,23 @@ export class GameState {
         }
 
         this.cookieCounter -= n;
+    }
+
+    buildGameStateJson() {
+        let responseBody: any;
+        responseBody["id"] = this.getId();
+        responseBody["name"] = this.getName();
+        responseBody["isRevealed"] = this.isRevealed();
+        responseBody["cookieCounter"] = this.getCookieCounter();
+        let i = 0;
+        this.players.forEach((player: Player, id: string) => {
+            let playerJson: any;
+            playerJson["id"] = player.getId();
+            playerJson["name"] = player.getName();
+            playerJson["value"] = player.getValue();
+            responseBody["players"][i] = playerJson;
+            i++;
+        });
+        return responseBody;
     }
 } 

@@ -40,7 +40,7 @@ wss.on('connection', (ws) => {
      try{
         let handler: MessageHandler;
         const dataJson = JSON.parse(data.toString());
-        switch(dataJson["message"]){
+        switch(dataJson["method"]){
           case "createGame":  handler = new CreateGameHandler(); return handler.handleMessage(dataJson).toString();
           case "chooseCard":  handler = new ChooseCardHandler(); return handler.handleMessage(dataJson).toString();
           case "leaveGame":  handler = new LeaveGameHandler(); return handler.handleMessage(dataJson).toString();
