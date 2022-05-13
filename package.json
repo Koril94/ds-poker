@@ -8,10 +8,9 @@
   "main": "index.js",
   "scripts": {
     "build": "cd server && npx tsc",
-    "start": "node server/build/index.js",
+    "start": "cd server/build &&  node index.js",
     "test": "node test.js"
   },
-  "type": "module",
   "dependencies": {
     "@types/express": "^4.17.13",
     "@types/node": "^17.0.33",
@@ -23,9 +22,11 @@
     "ts-node": "^10.7.0",
     "typescript": "^4.6.4",
     "utf-8-validate": "^5.0.9",
+    "uuid": "^8.3.2",
     "ws": "^8.6.0"
   },
   "devDependencies": {
+    "@types/uuid": "^8.3.4",
     "@types/jest": "^27.5.1",
     "got": "^11.3.0",
     "tape": "^4.7.0"

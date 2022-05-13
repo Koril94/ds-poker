@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const CardOnHand = ({ value, isSelected, onSelect }: any) => {
     const [_isSelected, setIsSelected] = useState(isSelected);
