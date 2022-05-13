@@ -3,8 +3,8 @@ export class Player {
     name: string;
     value: string;
 
-    constructor() {
-        this.id = Math.random().toString(36).substring(3,9);
+    constructor(playerID: string) {
+        this.id = playerID;
         this.name = "";
         this.value = ""; 
     }

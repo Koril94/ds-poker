@@ -59,8 +59,8 @@ export class GameState {
     /**
      * @description creates a new player and adds it to the current game
      */
-    addNewPlayer() {
-        let player = new Player();
+    addNewPlayer(playerID: string) {
+        let player = new Player(playerID);
         this.players.set(player.getId(), player);
         return player.getId();
     }

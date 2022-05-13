@@ -65,25 +65,24 @@ wss.on('connection', (ws) => {
 
       // create result message for identified message
       if(handler && gameState){
-        result = handler.handleMessage(dataJson, gameState);
+        result = handler.handleMessage(dataJson, gameState, currentPlayerID);
       }
     } catch(e){
       console.log("something went wrong trying to process the message: %s", e);
     }
 
     // update current websocket if result present
-    if(result != null){
+    if(result){
       ws.send(result);
     }
 
     // update all other websockets of the game state
     gameState?.getPlayers().forEach((player: Player, key) => {
-      if(playersMap.has(player.getId())){
+      if(playersMap.has(key)){
         const ws = playersMap.get(player.getId());
         ws?.send(JSON.stringify(gameState));
       }
     });
-    
   });
 });
 
