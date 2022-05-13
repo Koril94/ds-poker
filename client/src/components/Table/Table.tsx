@@ -8,8 +8,7 @@ const Table = ({ cards, cardsAreVisible } : any) => {
       <div className='table'
         style={{
           display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-evenly"
+
         }}
       >
         {cards.map((card: Card) => (

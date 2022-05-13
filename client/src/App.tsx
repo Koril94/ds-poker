@@ -17,16 +17,7 @@ export default function App() {
   const toggleCards = () => setCardsAreVisible((prev) => !prev);
 
   return (
-    <div
-      className="App"
-      style={{
-        display: "flex",
-        height: "90vh",
-        flexDirection: "column",
-        alignContent: "space-evenly",
-        justifyContent: "space-evenly"
-      }}
-    >
+    <div className="App">
       <h1>Planning Poker</h1>
       {/* Stats */}
       <Table cards={mockCards} cardsAreVisible={cardsAreVisible} />

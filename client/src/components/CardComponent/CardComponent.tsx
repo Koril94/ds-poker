@@ -5,16 +5,7 @@ const CardComponent = ({ name, value, isVisible }: any) => {
     return (
       <div className="cardWrapper">
         <p className="name">{name}</p>
-        <div
-          className='card'
-          style={{
-            border: "2px solid blue",
-            borderRadius: "10px",
-            width: "30px",
-            margin: 5,
-            aspectRatio: '1/2'
-          }}
-        >
+        <div className="card">
           <p className="cardValue">{isVisible ? value : "?"}</p>
         </div>
       </div>
