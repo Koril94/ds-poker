@@ -1,5 +1,6 @@
 import { Fibonacci } from '../objects/Fibonacci';
 import { ChooseCardHandler } from '../handler/ChooseCardHandler';
+import { GameState } from '../classes/GameState';
 
 describe('ChooseCardHandler', () => {
     const chooseCardMessage: JSON = JSON.parse(`{
@@ -13,7 +14,8 @@ describe('ChooseCardHandler', () => {
 
     it('ChooseCardHandler', async () => {
         const handler = new ChooseCardHandler();
-        expect(handler.handleMessage(chooseCardMessage)).toMatch(JSON.stringify(chooseCardMessage));
+        const gameState = new GameState();
+        expect(handler.handleMessage(chooseCardMessage, gameState)).toMatch(JSON.stringify(chooseCardMessage));
     });
 });
 

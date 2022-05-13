@@ -51,7 +51,7 @@ export class GameState {
      */
     reset() {
         this.revealed = false;
-        this.players.forEach((player: Player, id: string) => {
+        this.players.forEach((player: Player) => {
             player.setValue("");
         });
     }
