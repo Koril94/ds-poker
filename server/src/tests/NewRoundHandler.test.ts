@@ -12,7 +12,7 @@ describe('ChooseCardHandler', () => {
     it('ChooseCardHandler', async () => {
         const handler = new NewRoundHandler();
         const gameState = new GameState();
-        expect(handler.handleMessage(newRoundMessage, gameState)).toMatch(JSON.stringify(newRoundMessage));
+        expect(handler.handleMessage(newRoundMessage, gameState, "")).toMatch(JSON.stringify(newRoundMessage));
     });
 });
 
