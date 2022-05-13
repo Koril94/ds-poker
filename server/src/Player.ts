@@ -1,7 +1,7 @@
 export class Player {
-    id: String;
-    name: String;
-    value: String;
+    id: string;
+    name: string;
+    value: string;
 
     constructor() {
         this.id = Math.random().toString(36).substring(3,9);
@@ -21,11 +21,11 @@ export class Player {
         return this.value;
     }
 
-    setName(name: String) {
+    setName(name: string) {
         this.name = name;
     }
 
-    setValue(value: String) {
+    setValue(value: string) {
         this.value = value;
     }
 }
