@@ -16,6 +16,24 @@ export default function App() {
   const [cardsAreVisible, setCardsAreVisible] = useState(false);
   const toggleCards = () => setCardsAreVisible((prev) => !prev);
 
+  const HOST = document.location.origin.replace(/^http/, 'ws')
+  const ws = new WebSocket(HOST)
+
+  ws.onmessage = (event) => {
+    console.log(event)
+  }
+
+  const handleUpdate = () => {
+    ws.send(JSON.stringify({ method: 'createGame' }))
+  }
+
+
+
+
+
+
+
+
   return (
     <div className="App">
       <h1>Planning Poker</h1>
@@ -27,6 +45,7 @@ export default function App() {
       <div className="flexContainer">
       <div className="neuerTable">
 
+      <button onClick={handleUpdate}>Test</button>
       <button
         onClick={toggleCards}
         style={{
@@ -38,7 +57,6 @@ export default function App() {
           alignSelf: "center"
         }}
       >
-      
 
         {cardsAreVisible ? "Hide" : "Reveal"}
       </button>
