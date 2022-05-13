@@ -1,6 +1,6 @@
 import './App.css';
 
-import React, { useEffect, useState } from "react";
+import { useState } from "react";
 import Table from './components/Table/Table';
 import Hand from './components/Hand/Hand';
 import Stats from './components/Stats/Stats';
