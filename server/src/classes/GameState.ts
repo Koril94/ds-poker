@@ -1,5 +1,5 @@
 import { Player } from "./Player"
-import uuid from "uuid";
+import { v4 } from "uuid";
 
 export class GameState {
     id: string;
@@ -12,7 +12,7 @@ export class GameState {
      * @description create new game
      */
     constructor() {
-        this.id = uuid.v4();
+        this.id = v4();
         this.name = "";
         this.revealed = false;
         this.players = new Map<string, Player>();
@@ -103,4 +103,4 @@ export class GameState {
         });
         return responseBody;
     }
-} 
+}
