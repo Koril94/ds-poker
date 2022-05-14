@@ -14,6 +14,13 @@ interface Player {
     players: Player[]
   }
 
-const GameContext = createContext<GameState>({} as GameState)
+interface GameContextInterface {
+  game : GameState,
+  sendJsonMessage : any,
+  playerId : string,
+
+}
+
+const GameContext = createContext<GameContextInterface>({} as GameContextInterface)
 
 export default GameContext
