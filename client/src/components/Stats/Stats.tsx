@@ -8,11 +8,11 @@ interface Player {
   
 interface StatsProperties {
     players: Player[];
+    hidden: boolean
 }
 
-const Stats = ({ players } : StatsProperties) => {
+const Stats = ({ players, hidden } : StatsProperties) => {
 
-    let hidden = isNaN((parseInt(players[0].value.toString())));
 
     let minValue = (hidden) ? 0 : parseInt(players[0].value.toString());
     let maxValue = minValue;
