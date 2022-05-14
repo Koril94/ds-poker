@@ -1,4 +1,5 @@
 import { useState } from "react";
+import GameContext from "../../GameContext";
 import CardOnHand from "../CardOnHand/CardOnHand";
 import "./Hand.css";
 
@@ -14,22 +15,34 @@ const Hand = () => {
     };
   
     return (
-      <div>
-      <h3>Card chosen</h3>
+      <GameContext.Consumer>
+        {gameContext => {
+        return(
+          <div>
+          <h3>Card chosen</h3>
+          
+          <div className="hand">
+            {cardValues.map((card) => {
+                return (
+                <CardOnHand
+                  key={card}
+                  value={card}
+                  isSelected={card.toString() === selectedCard}
+                  onSelect={onSelect}
+                  sendJsonMessage={gameContext.sendJsonMessage}
+                  playerId={gameContext.playerId}
+                  gameId={gameContext.game.id}
+                />
+              );
+            })}
+          </div>
+      </div>
+        )
+      }}
+
+        
+      </GameContext.Consumer>
       
-      <div className="hand">
-        {cardValues.map((card) => {
-            return (
-            <CardOnHand
-              key={card}
-              value={card}
-              isSelected={card.toString() === selectedCard}
-              onSelect={onSelect}
-            />
-          );
-        })}
-      </div>
-      </div>
     );
   };
 

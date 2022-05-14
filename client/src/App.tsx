@@ -38,7 +38,7 @@ const HOST = document.location.origin.replace(/^http/, 'ws')
 
 export default function App() {
   const [game, setGame] = useState<GameState>(emptyGame)
-  const [playerId, setPlayerId] = useState<string>();
+  const [playerId, setPlayerId] = useState<string>("");
   const [idToJoin, setIdToJoin] = useState("");
 
   const [cardsAreVisible, setCardsAreVisible] = useState(false);
@@ -100,7 +100,7 @@ export default function App() {
   }
 
   return (
-    <GameContext.Provider value={game}>
+    <GameContext.Provider value={{game, sendJsonMessage, playerId}}>
      
       {/* Stats */}
       { game.id &&
