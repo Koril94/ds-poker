@@ -1,49 +1,140 @@
 import './App.css';
 
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Table from './components/Table/Table';
 import Hand from './components/Hand/Hand';
 import Stats from './components/Stats/Stats';
-import Card from './objects/Card';
+// import Player2 from './objects/Player';
+import GameContext from './GameContext';
+import useWebSocket from 'react-use-websocket';
 
-const mockCards = [
-  new Card("A", "1"),
-  new Card("B", "4"),
-  new Card("C", "6"),
-  new Card("A", "1"),
-  new Card("B", "4"),
-  new Card("C", "6"),
-  new Card("A", "1"),
-  new Card("B", "4"),
-  new Card("C", "6"),
-  new Card("A", "1"),
-  new Card("B", "4"),
-  new Card("C", "6")
-];
+import {ServerResponse as ReponseMessage} from './interfaces/ServerResponse'
+import {RequestMessage} from './interfaces/RequestMessage';
+
+interface Player {
+  id: string,
+  name: string,
+  value: number | string,
+}
+
+interface GameState {
+  id: string,
+  name: string,
+  isRevealed: boolean,
+  cookieCounter: number,
+  players: Player[]
+}
+
+const emptyGame = {
+  id: "",
+  name: "",
+  isRevealed: false,
+  cookieCounter: 0,
+  players: []
+}
+
+
+const HOST = document.location.origin.replace(/^http/, 'ws')
 
 export default function App() {
+  const [game] = useState<GameState>(emptyGame)
+  const [playerId, setPlayerId] = useState<string>();
+  const [idToJoin, setIdToJoin] = useState("");
+
   const [cardsAreVisible, setCardsAreVisible] = useState(false);
   const toggleCards = () => setCardsAreVisible((prev) => !prev);
+  // ws.onopen = () => {
+  //   // set Player ID
+  // }
+
+  const { sendJsonMessage, lastJsonMessage } = useWebSocket(HOST, {
+    share: true,
+  });
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    const responseMessage : ReponseMessage = lastJsonMessage;
+    console.log(lastJsonMessage);
+    if (responseMessage == null) return;
+
+    if(responseMessage.method === 'connect') {
+      setPlayerId(responseMessage.values.playerId);
+      console.log(responseMessage.values.playerId);
+    }
+
+
+  }, [lastJsonMessage]);
+  ;
+  
+  const updateIdToJoin = (e : React.ChangeEvent<HTMLInputElement>) => {
+    setIdToJoin(e.target.value || "");
+  }
+
+  const handleCreate = () => {
+    const createGameMessage : RequestMessage = {
+      method: 'createGame',
+      params: {
+        playerId,
+      }
+    };
+    console.log(createGameMessage);
+    sendJsonMessage(createGameMessage);
+  }
+
+  const handleJoin = () => {
+    const joinGameMessage : RequestMessage = {
+      method: 'participate',
+      params: {
+        playerId,
+        gameId : idToJoin
+      }
+    }
+    console.log('joinMessage', joinGameMessage);
+    sendJsonMessage(joinGameMessage);
+  }
 
   return (
-    <div className="App">
-      <h1>Planning Poker</h1>
+    <GameContext.Provider value={game}>
+     
       {/* Stats */}
-      <div className="pokerGame">
-      <Table cards={mockCards} cardsAreVisible={cardsAreVisible} />
+      { game.id &&
+      <div className="App">
+        <h1>Planning Poker</h1>
+        <div className="pokerGame">
+          
+            <Table showCards={cardsAreVisible} />
 
-      <Stats cards={mockCards}/>
+            <Stats players={game.players} />
+        </div>
+
+        <button
+          onClick={toggleCards}
+          className="btn_reveal"
+        >
+
+          {cardsAreVisible ? "Hide" : "Reveal"}
+        </button>
+        <Hand />
       </div>
-        
-            <button className="btn_reveal"
-              onClick={toggleCards}
-            >
-              {cardsAreVisible ? "Hide" : "Reveal"}
-            </button>
-        
-          <Hand />
+      }
+
+      { !game.id && 
+      <div className="App">
+        <h1>Planning Poker</h1>
+        <div className="pokerGame">
+          
+          <button onClick={handleCreate}>Create Game</button>
+
+          <input value={idToJoin} onChange={updateIdToJoin} /><button onClick={handleJoin}>Join Game</button>
+      
+      
+        </div>
       </div>
-    
+      }
+
+
+      
+    </GameContext.Provider>
   );
 }
 

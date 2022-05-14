@@ -3,7 +3,7 @@ import { WebSocketServer } from "ws";
 import * as ws from "ws";
 import * as http from "http";
 import * as path from "path";
-import uuid from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 import { CreateGameHandler } from "./handler/CreateGameHandler";
 import { ChooseCardHandler } from "./handler/ChooseCardHandler";
 import { LeaveGameHandler } from "./handler/LeaveGameHandler";
@@ -11,8 +11,13 @@ import { NewRoundHandler } from "./handler/NewRoundHandler";
 import { ParticipateHandler } from "./handler/ParticipateHandler";
 import { MessageHandler } from "./handler/MessageHandler";
 import { RevealCardsHandler } from "./handler/RevealCardsHandler";
+import { resourceLimits } from "worker_threads";
+import { GameState } from "./classes/GameState";
+import { Player } from "./classes/Player";
 
-let playersMap: Map<string, Object> = new Map<string, Object>();
+let playersMap = new Map<string, ws.WebSocket>();
+let gamesMap = new Map<string, GameState>();
+
 const app = express();
 app.use(express.static(path.join(__dirname, '../../',  "client", "build")));
 app.get('/api/test', (req, res) => {
@@ -32,31 +37,62 @@ server.listen(PORT);
 const wss = new WebSocketServer({server});
 
 
-wss.on('connection', (ws) => {
-  playersMap.set(uuid.v4(), ws);
-  console.log('Client connected');
+wss.on('connection', function connection(ws) {
+  const currentPlayerID: string = uuidv4();
+  playersMap.set(currentPlayerID, ws);
+  let connectResponse = {
+    "method" : "connect",
+    "values" : {
+      "playerId": currentPlayerID,
+    }
+  }
+
+  ws.send(JSON.stringify(connectResponse));
   ws.on('close', () => console.log('Client disconnected'));
   ws.on('message', (data) => {
-     try{
-        let handler: MessageHandler;
-        const dataJson = JSON.parse(data.toString());
-        switch(dataJson["message"]){
-          case "createGame":  handler = new CreateGameHandler(); return handler.handleMessage(dataJson).toString();
-          case "chooseCard":  handler = new ChooseCardHandler(); return handler.handleMessage(dataJson).toString();
-          case "leaveGame":  handler = new LeaveGameHandler(); return handler.handleMessage(dataJson).toString();
-          case "newRound":  handler = new NewRoundHandler(); return handler.handleMessage(dataJson).toString();
-          case "participate":  handler = new ParticipateHandler(); return handler.handleMessage(dataJson).toString();
-          case "revealCard":  handler = new RevealCardsHandler(); return handler.handleMessage(dataJson).toString();
-          default: console.log("no matching message found in: %s", JSON.stringify(dataJson));
-        }
-      } catch(e){
-        console.log("something went wrong trying to process the message: %s", e);
+    console.log(data);
+    let handler: MessageHandler | undefined;
+    let result: any;
+    let gameState: GameState | undefined;
+    try{
+      let dataJson = JSON.parse(data.toString());
+      gameState = dataJson["params"].gameId != null ? gamesMap.get(dataJson["params"].gameId) : new GameState();
+      switch(dataJson["method"]){
+        case "createGame": handler = new CreateGameHandler(); break;
+        case "chooseCard": handler = new ChooseCardHandler(); break;
+        case "leaveGame": handler = new LeaveGameHandler(); break;
+        case "newRound": handler = new NewRoundHandler(); break;
+        case "participate": handler = new ParticipateHandler(); break;
+        case "revealCard": handler = new RevealCardsHandler(); break;
+        default: console.log("no matching message found in: %s", JSON.stringify(dataJson));
       }
+
+      // put new gamestate to games map if not present
+      if(gameState && !gamesMap.has(gameState.getId())){
+        gamesMap.set(gameState.getId(), gameState);
+      }
+
+      // create result message for identified message
+      if(handler && gameState){
+        result = handler.handleMessage(dataJson, gameState, currentPlayerID);
+      }
+    } catch(e){
+      console.log("something went wrong trying to process the message: %s", e);
+    }
+
+    // update current websocket if result present
+    if(result){
+      ws.send(result);
+    }
+
+    // update all other websockets of the game state
+    gameState?.getPlayers().forEach((player: Player, key) => {
+      if(playersMap.has(key)){
+        const ws = playersMap.get(player.getId());
+        ws?.send(JSON.stringify(gameState));
+      }
+    });
   });
 });
 
-setInterval(() => {
-  wss.clients.forEach((client) => {
-    client.send(new Date().toTimeString());
-  });
-}, 1000);
+

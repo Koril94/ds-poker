@@ -1,21 +1,30 @@
-import Card from '../../objects/Card';
 import './Stats.css'
 
+interface Player {
+    id: string,
+    name: string,
+    value: number | string,
+}
+  
 interface StatsProperties {
-    cards: Card[];
+    players: Player[];
 }
 
-const Stats = ({ cards } : StatsProperties) => {
+const Stats = ({ players } : StatsProperties) => {
 
-    let hidden = isNaN((parseInt(cards[0].value.toString())));
+    let hidden = isNaN((parseInt(players[0].value.toString())));
 
-    let minValue = (hidden) ? 0 : parseInt(cards[0].value.toString());
+    let minValue = (hidden) ? 0 : parseInt(players[0].value.toString());
     let maxValue = minValue;
     let average = minValue;
 
     if (!hidden) {
-        cards.forEach((card: Card) => {
-            let value = parseInt(card.value.toString());
+        average = Math.round(players.reduce((prev: number, curr) => prev + parseInt(curr.value.toString()), 0)/players.length) 
+        players.forEach((card: Player) => {
+
+
+            let value = parseInt(card.value.toString()); 
+            
             if (minValue > value) minValue = value;
             if (maxValue < value) maxValue = value;
         });
