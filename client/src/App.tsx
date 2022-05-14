@@ -41,18 +41,29 @@ export default function App() {
   const [playerId, setPlayerId] = useState<string>("");
   const [idToJoin, setIdToJoin] = useState("");
 
-  const [cardsAreVisible, setCardsAreVisible] = useState(false);
   const toggleCards = () => {
-    setCardsAreVisible((prev) => !prev);
-    const revealCardMessage : RequestMessage = {
-      method : 'revealCard',
-      params : {
-        'gameId' : game.id,
-        'playerId' : playerId,
+    if(game.revealed) {
+      const resetMessage : RequestMessage = {
+        method : 'newRound',
+        params : {
+          'gameId' : game.id,
+          'playerId' : playerId,
+        }
       }
-    }
 
-    sendJsonMessage(revealCardMessage);
+      sendJsonMessage(resetMessage);
+    } else {
+      const revealCardMessage : RequestMessage = {
+        method : 'revealCard',
+        params : {
+          'gameId' : game.id,
+          'playerId' : playerId,
+        }
+      }
+  
+      sendJsonMessage(revealCardMessage);
+    }
+    
 
   }
   // ws.onopen = () => {
