@@ -6,6 +6,10 @@ import Hand from './components/Hand/Hand';
 import Stats from './components/Stats/Stats';
 // import Player2 from './objects/Player';
 import GameContext from './GameContext';
+import useWebSocket, { ReadyState } from 'react-use-websocket';
+
+import {ServerResponse as ReponseMessage} from './interfaces/ServerResponse'
+import {RequestMessage} from './interfaces/RequestMessage';
 
 interface Player {
   id: string,
@@ -34,31 +38,49 @@ const mockGameState = {
   ]
 }
 
-const HOST = document.location.origin.replace(/^http/, 'ws')
-const ws = new WebSocket(HOST)
 
+const HOST = document.location.origin.replace(/^http/, 'ws')
 
 export default function App() {
   const [game, setGame] = useState<GameState>(mockGameState)
+  const [playerId, setPlayerId] = useState<string>();
+  
 
   const [cardsAreVisible, setCardsAreVisible] = useState(false);
   const toggleCards = () => setCardsAreVisible((prev) => !prev);
-
   // ws.onopen = () => {
   //   // set Player ID
   // }
 
+  const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(HOST, {
+    share: true,
+  });
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => setGame(mockGameState))
+  useEffect(() => {
+    const responseMessage : ReponseMessage = lastJsonMessage;
+    console.log(lastJsonMessage);
+    if (responseMessage == null) return;
 
-  ws.onmessage = (data: any) => {
-    // let dataObject = JSON.parse(data);
-    // setGame(mockGameState)
-    console.log(data)
-  }
+    if(responseMessage.method === 'connect') {
+      setPlayerId(responseMessage.values.playerId);
+      console.log(responseMessage.values.playerId);
+    }
+
+  }, [lastJsonMessage]);
+  ;
+  
 
   const handleUpdate = () => {
-    ws.send(JSON.stringify({ method: 'createGame' }))
+    const createGameMessage : RequestMessage = {
+      method: 'createGame',
+      params: {
+        playerId,
+      }
+    };
+    console.log(createGameMessage);
+    sendJsonMessage(createGameMessage);
   }
 
   return (
@@ -66,6 +88,7 @@ export default function App() {
       <div className="App">
         <h1>Planning Poker</h1>
         {/* Stats */}
+        {readyState}
         <div className="pokerGame">
 
           <Table showCards={cardsAreVisible} />
