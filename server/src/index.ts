@@ -50,7 +50,6 @@ wss.on('connection', function connection(ws) {
   ws.send(JSON.stringify(connectResponse));
   ws.on('close', () => console.log('Client disconnected'));
   ws.on('message', (data) => {
-    console.log(data);
     let handler: MessageHandler | undefined;
     let result: any;
     let gameState: GameState | undefined;
@@ -89,7 +88,18 @@ wss.on('connection', function connection(ws) {
     gameState?.getPlayers().forEach((player: Player, key) => {
       if(playersMap.has(key)){
         const ws = playersMap.get(player.getId());
-        ws?.send(JSON.stringify(gameState));
+        const returnGameState = {
+          ...gameState,
+          players : Array.from(gameState?.getPlayers().values() || [])
+        }
+        const updateResponse = {
+          method: 'updateGame',
+          values: {
+            gameState : returnGameState
+
+          }
+        }
+        ws?.send(JSON.stringify(updateResponse));
       }
     });
   });
