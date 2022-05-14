@@ -1,17 +1,18 @@
 .App {
-  background: url(https://timer.dotsource.de/images/ds_fraktale.jpg);
+  /*background: url(https://timer.dotsource.de/images/ds_fraktale.jpg);
   -webkit-background-size: cover;
   -moz-background-size: cover;
-  -o-background-size: cover;
+  -o-background-size: cover; 
   background-size: cover;
-  background-attachment: fixed;
+  background-attachment: fixed; dotsource design */
   display: flex;
   height: 90vh;
   flex-direction: column;
   align-content: space-evenly;
   justify-content: space-evenly;
   text-align: center;
-  color: #fff;
+  /*color: #fff; dotSource design*/
+  color: #004272;
 }
 
 

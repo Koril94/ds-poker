@@ -1,5 +1,6 @@
 .stats {
     display: flex;
+    border-radius: 10px; /*UXPIN design*/
     flex-direction: column;
     color: #FFF;
     font-weight: bold;
