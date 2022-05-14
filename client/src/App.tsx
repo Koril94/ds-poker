@@ -26,6 +26,7 @@ interface GameState {
 }
 const params = new URLSearchParams(window.location.search);
 const gameId = params.get('gameId') || "";
+const playerName = params.get('playerName') || "";
 const emptyGame = {
   id: "",
   name: "",
@@ -41,6 +42,7 @@ export default function App() {
   const [game, setGame] = useState<GameState>(emptyGame)
   const [playerId, setPlayerId] = useState<string>("");
   const [idToJoin, setIdToJoin] = useState(gameId);
+  const [nameToShow, setNameToShow] = useState(playerName);
   const [inviteLink, setInviteLink] = useState("");
 
   const toggleCards = () => {
@@ -62,10 +64,10 @@ export default function App() {
           'playerId' : playerId,
         }
       }
-  
+
       sendJsonMessage(revealCardMessage);
     }
-    
+
 
   }
   // ws.onopen = () => {
@@ -96,9 +98,13 @@ export default function App() {
 
   }, [lastJsonMessage]);
   ;
-  
+
   const updateIdToJoin = (e : React.ChangeEvent<HTMLInputElement>) => {
     setIdToJoin(e.target.value || "");
+  }
+
+  const updateNameToShow = (e : React.ChangeEvent<HTMLInputElement>) => {
+    setNameToShow(e.target.value || "");
   }
 
   const handleCreate = () => {
@@ -106,6 +112,7 @@ export default function App() {
       method: 'createGame',
       params: {
         playerId,
+        playerName: nameToShow,
       }
     };
     console.log('createMessage', createGameMessage);
@@ -117,24 +124,25 @@ export default function App() {
       method: 'participate',
       params: {
         playerId,
-        gameId : idToJoin
+        gameId : idToJoin,
+        playerName: nameToShow,
       }
     }
     console.log('joinMessage', joinGameMessage);
     sendJsonMessage(joinGameMessage);
-    
+
   }
 
   return (
     <GameContext.Provider value={{game, sendJsonMessage, playerId}}>
-     
+
       {/* Stats */}
       { game.id &&
       <div className="App">
         <h1>Planning Poker</h1>
         <h4>Invite link: {inviteLink}</h4>
         <div className="pokerGame">
-          
+
             <Table showCards={game.revealed} />
 
             <Stats players={game.players} hidden={!game.revealed} />
@@ -151,21 +159,22 @@ export default function App() {
       </div>
       }
 
-      { !game.id && 
+      { !game.id &&
       <div className="App">
         <h1>Planning Poker</h1>
         <div className="pokerGame">
-                    
+
           <button className="btn_createGame" onClick={handleCreate} >Create Game</button>
 
           <input className="input_sessionName" placeholder="Game Name" value={idToJoin} onChange={updateIdToJoin} />
-          
+          <input className="input_playerName" placeholder="Player Name" value={nameToShow} onChange={updateNameToShow} />
+
           <button className="btn_joinGame" onClick={handleJoin}>Join Game</button>
-      
+
         </div>
       </div>
       }
-      
+
     </GameContext.Provider>
   );
 }
