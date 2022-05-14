@@ -3,7 +3,7 @@ import { WebSocketServer } from "ws";
 import * as ws from "ws";
 import * as http from "http";
 import * as path from "path";
-import uuid from "uuid";
+import { v4 as uuidv4 } from 'uuid';
 import { CreateGameHandler } from "./handler/CreateGameHandler";
 import { ChooseCardHandler } from "./handler/ChooseCardHandler";
 import { LeaveGameHandler } from "./handler/LeaveGameHandler";
@@ -36,10 +36,20 @@ server.listen(PORT);
 const wss = new WebSocketServer({server});
 
 
-wss.on('connection', (ws) => {
-  // playersMap.set(uuid.v4(), ws);
+wss.on('connection', function connection(ws) {
+  const playerId = uuidv4();
+  playersMap.set(playerId, ws);
+  let connectResponse = {
+    "method" : "connect",
+    "values" : {
+      "playerId": playerId,
+    }
+  }
+
+  ws.send(JSON.stringify(connectResponse));
   ws.on('close', () => console.log('Client disconnected'));
   ws.on('message', (data) => {
+    console.log(data);
     let handler: MessageHandler | undefined;
     let result: any;
     let gameState: GameState | undefined;
@@ -78,8 +88,4 @@ wss.on('connection', (ws) => {
   });
 });
 
-setInterval(() => {
-  wss.clients.forEach((client) => {
-    client.send(new Date().toTimeString());
-  });
-}, 1000);
+
