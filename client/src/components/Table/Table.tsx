@@ -11,7 +11,6 @@ const Table = ({ showCards }: TableProps) => {
   return (
     <GameContext.Consumer>
       {gameContext => {
-        const game = gameContext.game;
         return(
           <div className='table'
             style={{
@@ -19,12 +18,12 @@ const Table = ({ showCards }: TableProps) => {
 
             }}
           >
-            { game.players.map((player) => (
+            { gameContext.game.players.map((player) => (
               <CardComponent
                 key={player.id}
                 name={player.name}
                 value={player.value}
-                isVisible={game.isRevealed}
+                isVisible={gameContext.game.revealed}
               />
             ))}
           </div>

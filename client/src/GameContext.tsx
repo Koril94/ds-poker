@@ -9,7 +9,7 @@ interface Player {
   interface GameState {
     id: string,
     name: string,
-    isRevealed: boolean,
+    revealed: boolean,
     cookieCounter: number,
     players: Player[]
   }
