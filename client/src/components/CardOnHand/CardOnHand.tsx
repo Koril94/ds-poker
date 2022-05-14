@@ -24,14 +24,16 @@ const CardOnHand = ({ value, isSelected, onSelect, sendJsonMessage, playerId, ga
     }, [isSelected]);
   
     return (
-      
+      <div className="zone">
+
         <div className="CardOnHand"
           onClick={disabled ? () => alert('no changes allowed') : handleSelection}
           id={value}
           style={{backgroundColor: _isSelected ? "#0085cd" : "#fff"}}
-        >
+          >
         <p style={{ color: _isSelected ? "#fff" : "#0085cd" }}>{value}</p>
         </div>
+      </div>
     );
   };
 
