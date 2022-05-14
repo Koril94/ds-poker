@@ -20,7 +20,7 @@ interface Player {
 interface GameState {
   id: string,
   name: string,
-  isRevealed: boolean,
+  revealed: boolean,
   cookieCounter: number,
   players: Player[]
 }
@@ -28,7 +28,7 @@ interface GameState {
 const emptyGame = {
   id: "",
   name: "",
-  isRevealed: false,
+  revealed: false,
   cookieCounter: 0,
   players: []
 }
@@ -42,7 +42,19 @@ export default function App() {
   const [idToJoin, setIdToJoin] = useState("");
 
   const [cardsAreVisible, setCardsAreVisible] = useState(false);
-  const toggleCards = () => setCardsAreVisible((prev) => !prev);
+  const toggleCards = () => {
+    setCardsAreVisible((prev) => !prev);
+    const revealCardMessage : RequestMessage = {
+      method : 'revealCard',
+      params : {
+        'gameId' : game.id,
+        'playerId' : playerId,
+      }
+    }
+
+    sendJsonMessage(revealCardMessage);
+
+  }
   // ws.onopen = () => {
   //   // set Player ID
   // }
@@ -108,7 +120,7 @@ export default function App() {
         <h1>Planning Poker</h1>
         <div className="pokerGame">
           
-            <Table showCards={cardsAreVisible} />
+            <Table showCards={game.revealed} />
 
             <Stats players={game.players} />
         </div>
@@ -118,7 +130,7 @@ export default function App() {
           className="btn_reveal"
         >
 
-          {cardsAreVisible ? "Hide" : "Reveal"}
+          {game.revealed ? "Hide" : "Reveal"}
         </button>
         <Hand />
       </div>
