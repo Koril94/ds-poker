@@ -13,7 +13,7 @@ describe('ChooseCardHandler', () => {
     it('CreateGameHandler', async () => {
         const handler = new CreateGameHandler();
         const gameState = new GameState();
-        expect(handler.handleMessage(createGameMessage, gameState, "")).toMatch('');
+        expect(handler.handleMessage(createGameMessage, gameState, "", "ABC")).toMatch('');
     });
 });
 

@@ -12,7 +12,7 @@ describe('ChooseCardHandler', () => {
         });
         const handler = new RevealCardsHandler();
         const gameState = new GameState();
-        expect(handler.handleMessage(revealCardsMessage, gameState, "")).toMatch('');
+        expect(handler.handleMessage(revealCardsMessage, gameState, "", "")).toMatch('');
     });
 });
 

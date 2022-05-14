@@ -47,6 +47,12 @@ wss.on('connection', function connection(ws) {
     }
   }
 
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  let randomShort = "";
+  for(let i = 0; i<3; i+=1) {
+    randomShort += chars[Math.floor(Math.random()*26)]
+  }
+
   ws.send(JSON.stringify(connectResponse));
   ws.on('close', () => console.log('Client disconnected'));
   ws.on('message', (data) => {
@@ -54,10 +60,12 @@ wss.on('connection', function connection(ws) {
     let result: any;
     let gameState: GameState | undefined;
     let currentPlayerID: string = "";
+    let currentPlayerName: string = "";
     try{
       let dataJson = JSON.parse(data.toString());
       gameState = dataJson["params"].gameId != null ? gamesMap.get(dataJson["params"].gameId) : new GameState();
       currentPlayerID = dataJson["params"].playerId || "";
+      currentPlayerName = dataJson["params"].playerName || randomShort;
       switch(dataJson["method"]){
         case "createGame": handler = new CreateGameHandler(); break;
         case "chooseCard": handler = new ChooseCardHandler(); break;
@@ -75,7 +83,7 @@ wss.on('connection', function connection(ws) {
 
       // create result message for identified message
       if(handler && gameState){
-        result = handler.handleMessage(dataJson, gameState, currentPlayerID);
+        result = handler.handleMessage(dataJson, gameState, currentPlayerID, currentPlayerName);
       }
     } catch(e){
       console.log("something went wrong trying to process the message: %s", e);
