@@ -25,26 +25,21 @@ interface GameState {
   players: Player[]
 }
 
-const mockGameState = {
-  id: '24234234',
-  name: 'Hackathon',
+const emptyGame = {
+  id: "",
+  name: "",
   isRevealed: false,
-  cookieCounter: 4,
-  players: [
-    { id: '111', name: 'A', value: 1 },
-    { id: '112', name: 'B', value: 2 },
-    { id: '113', name: 'C', value: 12 },
-    { id: '114', name: 'D', value: 4 },
-  ]
+  cookieCounter: 0,
+  players: []
 }
 
 
 const HOST = document.location.origin.replace(/^http/, 'ws')
 
 export default function App() {
-  const [game, setGame] = useState<GameState>(mockGameState)
+  const [game] = useState<GameState>(emptyGame)
   const [playerId, setPlayerId] = useState<string>();
-  
+  const [idToJoin, setIdToJoin] = useState("");
 
   const [cardsAreVisible, setCardsAreVisible] = useState(false);
   const toggleCards = () => setCardsAreVisible((prev) => !prev);
@@ -52,12 +47,11 @@ export default function App() {
   //   // set Player ID
   // }
 
-  const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(HOST, {
+  const { sendJsonMessage, lastJsonMessage } = useWebSocket(HOST, {
     share: true,
   });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => setGame(mockGameState))
   useEffect(() => {
     const responseMessage : ReponseMessage = lastJsonMessage;
     console.log(lastJsonMessage);
@@ -68,11 +62,15 @@ export default function App() {
       console.log(responseMessage.values.playerId);
     }
 
+
   }, [lastJsonMessage]);
   ;
   
+  const updateIdToJoin = (e : React.ChangeEvent<HTMLInputElement>) => {
+    setIdToJoin(e.target.value || "");
+  }
 
-  const handleUpdate = () => {
+  const handleCreate = () => {
     const createGameMessage : RequestMessage = {
       method: 'createGame',
       params: {
@@ -83,21 +81,32 @@ export default function App() {
     sendJsonMessage(createGameMessage);
   }
 
+  const handleJoin = () => {
+    const joinGameMessage : RequestMessage = {
+      method: 'participate',
+      params: {
+        playerId,
+        gameId : idToJoin
+      }
+    }
+    console.log('joinMessage', joinGameMessage);
+    sendJsonMessage(joinGameMessage);
+  }
+
   return (
     <GameContext.Provider value={game}>
+     
+      {/* Stats */}
+      { game.id &&
       <div className="App">
         <h1>Planning Poker</h1>
-        {/* Stats */}
-        {readyState}
         <div className="pokerGame">
+          
+            <Table showCards={cardsAreVisible} />
 
-          <Table showCards={cardsAreVisible} />
-
-          <Stats players={game.players} />
+            <Stats players={game.players} />
         </div>
 
-
-        <button onClick={handleUpdate}>Test</button>
         <button
           onClick={toggleCards}
           className="btn_reveal"
@@ -107,6 +116,24 @@ export default function App() {
         </button>
         <Hand />
       </div>
+      }
+
+      { !game.id && 
+      <div className="App">
+        <h1>Planning Poker</h1>
+        <div className="pokerGame">
+          
+          <button onClick={handleCreate}>Create Game</button>
+
+          <input value={idToJoin} onChange={updateIdToJoin} /><button onClick={handleJoin}>Join Game</button>
+      
+      
+        </div>
+      </div>
+      }
+
+
+      
     </GameContext.Provider>
   );
 }
