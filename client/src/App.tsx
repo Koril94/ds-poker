@@ -24,7 +24,8 @@ interface GameState {
   cookieCounter: number,
   players: Player[]
 }
-
+const params = new URLSearchParams(window.location.search);
+const gameId = params.get('gameId') || "";
 const emptyGame = {
   id: "",
   name: "",
@@ -39,7 +40,8 @@ const HOST = document.location.origin.replace(/^http/, 'ws')
 export default function App() {
   const [game, setGame] = useState<GameState>(emptyGame)
   const [playerId, setPlayerId] = useState<string>("");
-  const [idToJoin, setIdToJoin] = useState("");
+  const [idToJoin, setIdToJoin] = useState(gameId);
+  const [inviteLink, setInviteLink] = useState("");
 
   const toggleCards = () => {
     if(game.revealed) {
@@ -88,6 +90,7 @@ export default function App() {
     if(responseMessage.method === 'updateGame') {
       console.log(responseMessage.values.gameState)
       setGame(responseMessage.values.gameState)
+      setInviteLink(`${document.location.origin}?gameId=${responseMessage.values.gameState.id}`)
     }
 
 
@@ -129,11 +132,12 @@ export default function App() {
       { game.id &&
       <div className="App">
         <h1>Planning Poker</h1>
+        <h4>Invite link: {inviteLink}</h4>
         <div className="pokerGame">
           
             <Table showCards={game.revealed} />
 
-            <Stats players={game.players} />
+            <Stats players={game.players} hidden={!game.revealed} />
         </div>
 
         <button
