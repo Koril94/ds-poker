@@ -25,6 +25,7 @@ const Hand = () => {
             {cardValues.map((card) => {
                 return (
                 <CardOnHand
+                  disabled={gameContext.game.revealed}
                   key={card}
                   value={card}
                   isSelected={card.toString() === selectedCard}

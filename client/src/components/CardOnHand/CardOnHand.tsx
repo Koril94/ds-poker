@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { RequestMessage } from "../../interfaces/RequestMessage";
 import "./CardOnHand.css";
-const CardOnHand = ({ value, isSelected, onSelect, sendJsonMessage, playerId, gameId }: any) => {
+const CardOnHand = ({ value, isSelected, onSelect, sendJsonMessage, playerId, gameId, disabled }: any) => {
     const [_isSelected, setIsSelected] = useState(isSelected);
   
     const handleSelection = (e: any) => {
@@ -26,7 +26,7 @@ const CardOnHand = ({ value, isSelected, onSelect, sendJsonMessage, playerId, ga
     return (
       
         <div className="CardOnHand"
-          onClick={handleSelection}
+          onClick={disabled ? () => alert('no changes allowed') : handleSelection}
           id={value}
           style={{backgroundColor: _isSelected ? "#0085cd" : "#fff"}}
         >

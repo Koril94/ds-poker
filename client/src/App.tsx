@@ -168,7 +168,6 @@ export default function App() {
           {game.revealed ? "Hide" : "Reveal"}
         </button>
         <Hand />
-        <input placeholder="Paste here, to try!" />
       </div>
       }
 
