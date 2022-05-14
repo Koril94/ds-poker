@@ -81,6 +81,12 @@
   border-radius: 10px;
   align-self: center;
   margin-bottom: 30px;
+  transition: all ease-in-out 500ms;
+}
+
+.App .btn_reveal:hover {
+  transform: scale(1.1);
+  background-color: #014e85;
 }
 
 .App-header {

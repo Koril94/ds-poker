@@ -18,14 +18,16 @@ const Table = ({ showCards }: TableProps) => {
 
             }}
           >
-            { gameContext.game.players.map((player) => (
+            { gameContext.game.players.map((player) => {
+              console.log('vslue: ', player.value)
+              return (
               <CardComponent
                 key={player.id}
                 name={player.name}
-                value={player.value}
+                value={player.value === '' ? '-' : player.value}
                 isVisible={gameContext.game.revealed}
               />
-            ))}
+            )})}
           </div>
         )
       }}

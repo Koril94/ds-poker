@@ -12,9 +12,7 @@ interface StatsProperties {
 }
 
 const Stats = ({ players, hidden } : StatsProperties) => {
-
-
-    let minValue = (hidden) ? 0 : parseInt(players[0].value.toString());
+    let minValue = (hidden) ? 0 : Math.min(...players.map(p => parseInt(p.value.toString())))//    0 : parseInt(players[0].value.toString());
     let maxValue = minValue;
     let average = minValue;
 

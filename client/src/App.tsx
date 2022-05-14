@@ -133,6 +133,15 @@ export default function App() {
 
   }
 
+  const addToClipboard = () => {
+    var tempInput = document.createElement("input");
+    tempInput.value = inviteLink;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+  }
+
   return (
     <GameContext.Provider value={{game, sendJsonMessage, playerId}}>
 
@@ -140,7 +149,10 @@ export default function App() {
       { game.id &&
       <div className="App">
         <h1>Planning Poker</h1>
-        <h4>Invite link: {inviteLink}</h4>
+        <div>
+          <h4 id="invite_link">Invite link: {inviteLink}</h4>
+          <button className='btn_reveal' onClick={addToClipboard}>Copy Link</button>
+        </div>
         <div className="pokerGame">
 
             <Table showCards={game.revealed} />
