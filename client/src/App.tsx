@@ -6,7 +6,7 @@ import Hand from './components/Hand/Hand';
 import Stats from './components/Stats/Stats';
 // import Player2 from './objects/Player';
 import GameContext from './GameContext';
-import useWebSocket, { ReadyState } from 'react-use-websocket';
+import useWebSocket from 'react-use-websocket';
 
 import {ServerResponse as ReponseMessage} from './interfaces/ServerResponse'
 import {RequestMessage} from './interfaces/RequestMessage';
