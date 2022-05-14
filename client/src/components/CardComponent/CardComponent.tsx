@@ -1,6 +1,9 @@
 import './CardComponent.css'
 
+
+
 const CardComponent = ({ name, value, isVisible }: any) => {
+    console.log('card should show?', isVisible);
     return (
       <div className="cardWrapper">
         <p className="name">{name}</p>
@@ -10,5 +13,6 @@ const CardComponent = ({ name, value, isVisible }: any) => {
       </div>
     );
   };
+
 
   export default CardComponent

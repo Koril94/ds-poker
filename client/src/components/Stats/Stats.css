@@ -1,0 +1,13 @@
+.stats {
+    display: flex;
+    border-radius: 10px; /*UXPIN design*/
+    flex-direction: column;
+    color: #FFF;
+    font-weight: bold;
+    justify-content: center;
+    align-self: center;
+    background-color: #004272;
+    width: 20%;
+    margin-left: 3%;
+    /*aspect-ratio: '1/2';*/
+}

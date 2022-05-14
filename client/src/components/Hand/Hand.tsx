@@ -1,5 +1,10 @@
 import { useState } from "react";
+import GameContext from "../../GameContext";
 import CardOnHand from "../CardOnHand/CardOnHand";
+import "./Hand.css";
+
+
+
 
 const Hand = () => {
     const [selectedCard, setSelectedCard] = useState(null);
@@ -10,24 +15,34 @@ const Hand = () => {
     };
   
     return (
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-evenly"
-        }}
-      >
-        {cardValues.map((card) => {
-            return (
-            <CardOnHand
-              key={card}
-              value={card}
-              isSelected={card.toString() === selectedCard}
-              onSelect={onSelect}
-            />
-          );
-        })}
+      <GameContext.Consumer>
+        {gameContext => {
+        return(
+          <div>
+          <h3>Card chosen</h3>
+          
+          <div className="hand">
+            {cardValues.map((card) => {
+                return (
+                <CardOnHand
+                  key={card}
+                  value={card}
+                  isSelected={card.toString() === selectedCard}
+                  onSelect={onSelect}
+                  sendJsonMessage={gameContext.sendJsonMessage}
+                  playerId={gameContext.playerId}
+                  gameId={gameContext.game.id}
+                />
+              );
+            })}
+          </div>
       </div>
+        )
+      }}
+
+        
+      </GameContext.Consumer>
+      
     );
   };
 

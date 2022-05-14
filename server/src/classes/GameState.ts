@@ -1,4 +1,5 @@
 import { Player } from "./Player"
+import { v4 } from "uuid";
 
 export class GameState {
     id: string;
@@ -11,7 +12,7 @@ export class GameState {
      * @description create new game
      */
     constructor() {
-        this.id = Math.random().toString(36).substring(2,9);
+        this.id = v4();
         this.name = "";
         this.revealed = false;
         this.players = new Map<string, Player>();
@@ -51,7 +52,7 @@ export class GameState {
      */
     reset() {
         this.revealed = false;
-        this.players.forEach((player: Player, id: string) => {
+        this.players.forEach((player: Player) => {
             player.setValue("");
         });
     }
@@ -59,9 +60,10 @@ export class GameState {
     /**
      * @description creates a new player and adds it to the current game
      */
-    addNewPlayer() {
-        let player = new Player();
+    addNewPlayer(playerID: string) {
+        let player = new Player(playerID);
         this.players.set(player.getId(), player);
+        return player.getId();
     }
 
     /**
@@ -83,4 +85,22 @@ export class GameState {
 
         this.cookieCounter -= n;
     }
-} 
+
+    buildGameStateJson() {
+        let responseBody: any;
+        responseBody["id"] = this.getId();
+        responseBody["name"] = this.getName();
+        responseBody["isRevealed"] = this.isRevealed();
+        responseBody["cookieCounter"] = this.getCookieCounter();
+        let i = 0;
+        this.players.forEach((player: Player, id: string) => {
+            let playerJson: any;
+            playerJson["id"] = player.getId();
+            playerJson["name"] = player.getName();
+            playerJson["value"] = player.getValue();
+            responseBody["players"][i] = playerJson;
+            i++;
+        });
+        return responseBody;
+    }
+}
