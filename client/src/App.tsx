@@ -41,18 +41,29 @@ export default function App() {
   const [playerId, setPlayerId] = useState<string>("");
   const [idToJoin, setIdToJoin] = useState("");
 
-  const [cardsAreVisible, setCardsAreVisible] = useState(false);
   const toggleCards = () => {
-    setCardsAreVisible((prev) => !prev);
-    const revealCardMessage : RequestMessage = {
-      method : 'revealCard',
-      params : {
-        'gameId' : game.id,
-        'playerId' : playerId,
+    if(game.revealed) {
+      const resetMessage : RequestMessage = {
+        method : 'newRound',
+        params : {
+          'gameId' : game.id,
+          'playerId' : playerId,
+        }
       }
-    }
 
-    sendJsonMessage(revealCardMessage);
+      sendJsonMessage(resetMessage);
+    } else {
+      const revealCardMessage : RequestMessage = {
+        method : 'revealCard',
+        params : {
+          'gameId' : game.id,
+          'playerId' : playerId,
+        }
+      }
+  
+      sendJsonMessage(revealCardMessage);
+    }
+    
 
   }
   // ws.onopen = () => {
@@ -140,17 +151,16 @@ export default function App() {
       <div className="App">
         <h1>Planning Poker</h1>
         <div className="pokerGame">
-          
-          <button onClick={handleCreate}>Create Game</button>
+                    
+          <button className="btn_createGame" onClick={handleCreate} >Create Game</button>
 
-          <input value={idToJoin} onChange={updateIdToJoin} /><button onClick={handleJoin}>Join Game</button>
-      
+          <input className="input_sessionName" placeholder="Game Name" value={idToJoin} onChange={updateIdToJoin} />
+          
+          <button className="btn_joinGame" onClick={handleJoin}>Join Game</button>
       
         </div>
       </div>
       }
-
-
       
     </GameContext.Provider>
   );

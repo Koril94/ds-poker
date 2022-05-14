@@ -53,10 +53,11 @@ wss.on('connection', function connection(ws) {
     let handler: MessageHandler | undefined;
     let result: any;
     let gameState: GameState | undefined;
+    let currentPlayerID: string = "";
     try{
       let dataJson = JSON.parse(data.toString());
       gameState = dataJson["params"].gameId != null ? gamesMap.get(dataJson["params"].gameId) : new GameState();
-      console.log(data);
+      currentPlayerID = dataJson["params"].playerId || "";
       switch(dataJson["method"]){
         case "createGame": handler = new CreateGameHandler(); break;
         case "chooseCard": handler = new ChooseCardHandler(); break;
