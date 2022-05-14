@@ -134,9 +134,12 @@ export default function App() {
   }
 
   const addToClipboard = () => {
-    // add to clipboard
-    navigator.clipboard.writeText(inviteLink)
-    alert('Added invitation link to clipboard!')
+    var tempInput = document.createElement("input");
+    tempInput.value = inviteLink;
+    document.body.appendChild(tempInput);
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
   }
 
   return (
@@ -147,7 +150,7 @@ export default function App() {
       <div className="App">
         <h1>Planning Poker</h1>
         <div>
-          <h4>Invite link: {inviteLink}</h4>
+          <h4 id="invite_link">Invite link: {inviteLink}</h4>
           <button className='btn_reveal' onClick={addToClipboard}>Copy Link</button>
         </div>
         <div className="pokerGame">
@@ -165,6 +168,7 @@ export default function App() {
           {game.revealed ? "Hide" : "Reveal"}
         </button>
         <Hand />
+        <input placeholder="Paste here, to try!" />
       </div>
       }
 
