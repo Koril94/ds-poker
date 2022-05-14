@@ -10,8 +10,8 @@ const Table = ({ showCards }: TableProps) => {
 
   return (
     <GameContext.Consumer>
-      {game => {
-        console.log(game)
+      {gameContext => {
+        const game = gameContext.game;
         return(
           <div className='table'
             style={{
@@ -24,7 +24,7 @@ const Table = ({ showCards }: TableProps) => {
                 key={player.id}
                 name={player.name}
                 value={player.value}
-                isVisible={showCards}
+                isVisible={game.isRevealed}
               />
             ))}
           </div>
