@@ -37,7 +37,7 @@ const emptyGame = {
 const HOST = document.location.origin.replace(/^http/, 'ws')
 
 export default function App() {
-  const [game] = useState<GameState>(emptyGame)
+  const [game, setGame] = useState<GameState>(emptyGame)
   const [playerId, setPlayerId] = useState<string>();
   const [idToJoin, setIdToJoin] = useState("");
 
@@ -62,6 +62,11 @@ export default function App() {
       console.log(responseMessage.values.playerId);
     }
 
+    if(responseMessage.method === 'updateGame') {
+      console.log(responseMessage.values.gameState)
+      setGame(responseMessage.values.gameState)
+    }
+
 
   }, [lastJsonMessage]);
   ;
@@ -77,7 +82,7 @@ export default function App() {
         playerId,
       }
     };
-    console.log(createGameMessage);
+    console.log('createMessage', createGameMessage);
     sendJsonMessage(createGameMessage);
   }
 
@@ -91,6 +96,7 @@ export default function App() {
     }
     console.log('joinMessage', joinGameMessage);
     sendJsonMessage(joinGameMessage);
+    
   }
 
   return (
