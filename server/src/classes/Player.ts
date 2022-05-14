@@ -3,12 +3,12 @@ export class Player {
     name: string;
     value: string;
 
-    constructor(playerID: string) {
+    constructor(playerID: string, playerName: string) {
         this.id = playerID;
-        this.name = "";
-        this.value = ""; 
+        this.name = playerName;
+        this.value = "";
     }
-    
+
     getId() {
         return this.id;
     }

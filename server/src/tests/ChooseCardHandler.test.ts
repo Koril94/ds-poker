@@ -15,7 +15,7 @@ describe('ChooseCardHandler', () => {
     it('ChooseCardHandler', async () => {
         const handler = new ChooseCardHandler();
         const gameState = new GameState();
-        expect(handler.handleMessage(chooseCardMessage, gameState, "")).toMatch('');
+        expect(handler.handleMessage(chooseCardMessage, gameState, "", "ABC")).toMatch('');
     });
 });
 

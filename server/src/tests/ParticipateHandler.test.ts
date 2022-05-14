@@ -12,7 +12,7 @@ describe('ChooseCardHandler', () => {
     it('ChooseCardHandler', async () => {
         const handler = new ParticipateHandler();
         const gameState = new GameState();
-        expect(handler.handleMessage(participateMessage, gameState, "")).toMatch('');
+        expect(handler.handleMessage(participateMessage, gameState, "", "DEF")).toMatch('');
     });
 });
 
